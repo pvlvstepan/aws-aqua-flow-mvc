@@ -1,12 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<section class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Get Refreshed</h1>
-            <p class="lead fw-normal text-white-50 mb-0">With this shop homepage template</p>
-        </div>
+<div 
+    class="p-5 text-center bg-body-tertiary"
+     style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://s3.amazonaws.com/aquaflow.assets/home-banner.jpg');background-size:cover">
+    <img class="mt-4 mb-3" width="100" height="100" src="https://s3.amazonaws.com/aquaflow.assets/logo.png" />
+    <h1 class="text-white">AquaFlow: Your Source for Refreshing Water</h1>
+    <p class="col-lg-6 mx-auto fs-5 text-white">
+        Experience Purity, Reliability, and Refreshment with AquaFlow - Your Trusted Partner in Hassle-Free Water Delivery!
+    </p>
+    <div class="d-inline-flex gap-2 mb-5">
+        <button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+            Order now
+            <i class="bi bi-arrow-right ms-2"></i>
+        </button>
     </div>
-</section>
+</div>

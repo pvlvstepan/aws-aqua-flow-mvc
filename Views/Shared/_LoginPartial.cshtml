@@ -4,33 +4,34 @@
 @inject SignInManager<AquaFlowUser> SignInManager
 @inject UserManager<AquaFlowUser> UserManager
 
-<ul class="ms-auto my-auto d-flex list-unstyled">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="dropdown nav-item">
-            <a class="btn btn-outline-primary dropdown-toggle dropdown-menu-end" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="flex-shrink-0 dropdown">
+        <button type="button" class="d-block ms-auto btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+            <span class="d-sm-inline d-none">
                 @UserManager.GetUserName(User)
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li>
-                    <a id="manage" class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage Profile">Profile</a>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button id="logout" type="submit" class="dropdown-item text-danger">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="btn btn-outline-primary me-2" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="btn btn-primary" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-    }
-</ul>
+            </span>
+            <i class="bi bi-person-fill d-sm-none"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+            <li><span class="dropdown-item-text">@UserManager.GetUserName(User)</span></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Orders</a></li>
+            <li><a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="dropdown-item">Sign Out</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="text-end">
+        <a class="btn btn-outline-primary me-2" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="btn btn-primary" id="register" asp-area="Identity" asp-page="/Account/Register">Sign-up</a>
+    </div>
+}
