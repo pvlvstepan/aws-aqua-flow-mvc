@@ -56,7 +56,13 @@ namespace AquaFlow.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            
+            [Required]
+            [Display(Name = "Full Name")]
+            public string FullName { get; set; }
+
             [Phone]
+            [Required]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
         }
@@ -65,11 +71,13 @@ namespace AquaFlow.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var fullName = user.FullName;
 
             Username = userName;
 
             Input = new InputModel
             {
+                FullName = fullName,
                 PhoneNumber = phoneNumber
             };
         }
@@ -101,6 +109,14 @@ namespace AquaFlow.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var fullName = user.FullName;
+
+            if (Input.FullName != fullName)
+            {
+                user.FullName = Input.FullName;
+                await _userManager.UpdateAsync(user); // Update the user with the new full name
+            }
+
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);

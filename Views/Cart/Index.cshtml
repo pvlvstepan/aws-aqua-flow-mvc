@@ -1,39 +1,156 @@
 ﻿@model AquaFlow.Models.Cart
+@using Microsoft.AspNetCore.Identity
+@using AquaFlow.Areas.Identity.Data
+
+
+@inject UserManager<AquaFlowUser> UserManager
 
 @{
     ViewData["Title"] = "Shopping Cart";
+
+    var totalItems = 0;
+    var subTotal = 0.0m;
+    var shipping = 0.0m;
+    var tax = 0.0m;
+    var total = 0.0m;
+
+    var user = await UserManager.GetUserAsync(User);
+
+    var userAddress = "";
+
+    if (!string.IsNullOrEmpty(user.Street) && !string.IsNullOrEmpty(user.City) && !string.IsNullOrEmpty(user.State) && !string.IsNullOrEmpty(user.ZipCode))
+    {
+        userAddress = $"{user.Street}, {user.City}, {user.State} {user.ZipCode}";
+    }
+
+    if (Model.CartItems != null && Model.CartItems.Count() > 0)
+    {
+        shipping = 10.0m; // Defaults to RM 10, can be moved to the admin panel potentially
+        totalItems = Model.CartItems.Count();
+        subTotal = Model.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);
+        tax = (subTotal + shipping) * 0.06m;
+        total = subTotal + shipping + tax;
+    }
 }
 
-<h2>@ViewData["Title"]</h2>
 
-@if (Model.CartItems != null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.CartItems)
-            {
-                <tr>
-                    <td>@item.Product.Name</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Product.Price</td>
-                    <td>@(item.Quantity * item.Product.Price)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
 
-    <p>Total: @Model.CartItems.Sum(ci => ci.Quantity * ci.Product.Price)</p>
+<section class="container py-5 flex-grow-1">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col">
 
-    <a asp-action="Checkout">Checkout</a>
-} else
-{
-    <p>No items in the cart.</p>
-}
+            <div class="row">
+
+                <div class="col-lg-7">
+                    <h5 class="mb-3">
+                        Shopping Cart
+                    </h5>
+                    <hr>
+
+                    <div class="mb-4">
+                        <p class="mb-0">You have @totalItems items in your cart</p>
+                    </div>
+
+                    @if (Model.CartItems != null)
+                    {
+                        foreach (var item in Model.CartItems)
+                        {
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <div>
+                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
+                                                     class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                            </div>
+                                            <div class="ms-3">
+                                                <h5>@item.Product.Name</h5>
+                                                <p class="small mb-0 text-truncate">@item.Product.Description</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center">
+                                            <div style="width: 50px;">
+                                                <h5 class="fw-normal mb-0">@item.Quantity</h5>
+                                            </div>
+                                            <div style="width: 80px;">
+                                                <h5 class="mb-0">@(item.Quantity * item.Product.Price)</h5>
+                                            </div>
+                                            <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+                <div class="col-lg-5">
+
+                    <div class="card bg-primary text-white rounded-3">
+                        <div class="card-body">
+                            <h5 class="mb-4">Order details</h5>
+
+                            <p class="small mb-2">Delivery Address</p>
+
+                            <p>
+
+                            <p>
+                                <span>@user.FullName</span><br>
+                                <span>@user.PhoneNumber</span><br>
+
+
+                            </p>
+                                @if (!string.IsNullOrEmpty(userAddress))
+                                {
+                                <p><span>@userAddress</span></p>
+                                <a class="link link-light" asp-area="Identity" asp-page="/Account/Manage/DefaultAddress">
+                                    Change Address
+                                </a>
+                                }
+                                else
+                                {
+                                <a class="link link-light" asp-area="Identity" asp-page="/Account/Manage/DefaultAddress">
+                                    Add Address
+                                </a>
+                                }
+
+                            </p>
+
+                            <hr class="my-4">
+
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-2">Subtotal</p>
+                                <p class="mb-2">RM @subTotal.ToString("0.00")</p>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-2">Shipping</p>
+                                <p class="mb-2">RM @shipping.ToString("0.00")</p>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <p class="mb-2">6% GST</p>
+                                <p class="mb-2">RM @tax.ToString("0.00")</p>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-4">
+                                <p class="mb-2">Total (Incl. taxes)</p>
+                                <p class="mb-2">RM @total.ToString("0.00")</p>
+                            </div>
+
+                            <button type="button" class="btn btn-light btn-block btn-lg w-100" @(totalItems > 0 && !string.IsNullOrEmpty(userAddress) ? "" : "disabled")>
+                                <div class="d-flex justify-content-between">
+                                    <span>RM @total.ToString("0.00")</span>
+                                    <span>Place Order <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                </div>
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
