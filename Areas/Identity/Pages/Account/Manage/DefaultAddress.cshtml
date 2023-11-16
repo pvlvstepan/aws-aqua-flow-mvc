@@ -1,0 +1,47 @@
+﻿@page
+@model AquaFlow.Areas.Identity.Pages.Account.Manage.DefaultAddressModel
+@{
+    ViewData["Title"] = "Default Address";
+    ViewData["ActivePage"] = ManageNavPages.DefaultAddress;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="address-form" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Street" class="form-control" placeholder="Please enter your street." />
+                <label asp-for="Input.Street" class="form-label"></label>
+                <span asp-validation-for="Input.Street" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.City" class="form-control" placeholder="Please enter your city." />
+                <label asp-for="Input.City" class="form-label"></label>
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.State" class="form-control" placeholder="Please enter your state." />
+                <label asp-for="Input.State" class="form-label"></label>
+                <span asp-validation-for="Input.State" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ZipCode" class="form-control" placeholder="Please enter your zip code." />
+                <label asp-for="Input.ZipCode" class="form-label"></label>
+                <span asp-validation-for="Input.ZipCode" class="text-danger"></span>
+            </div>
+
+            <button id="update-address-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+        </form>
+
+    </div>
+</div>
+
+@section scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
