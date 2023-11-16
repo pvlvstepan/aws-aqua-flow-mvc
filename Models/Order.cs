@@ -1,5 +1,6 @@
 ﻿using AquaFlow.Areas.Identity.Data;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AquaFlow.Models
 {
@@ -16,13 +17,13 @@ namespace AquaFlow.Models
         public DateTime OrderDate { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:C}")]
+        [Column(TypeName = "decimal(18, 2)")]
         public decimal TotalAmount { get; set; }
 
         [Required]
         public string Status { get; set; }
 
         // Navigation property for OrderItems
-        public List<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }
