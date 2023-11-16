@@ -1,0 +1,13 @@
+﻿@model List<Order>
+
+<h2>Orders:</h2>
+<ul>
+    @foreach (var order in Model)
+    {
+        <li>
+            <strong>Order ID:</strong> @order.OrderID<br />
+            <strong>Order Date:</strong> @order.OrderDate<br />
+            <strong>Total Amount:</strong> @order.TotalAmount.ToString("C")
+        </li>
+    }
+</ul>
