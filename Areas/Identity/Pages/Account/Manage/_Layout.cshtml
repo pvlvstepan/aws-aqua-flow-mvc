@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "/Views/Shared/Layouts/_HomeLayout.cshtml";
+    ViewBag.ShowAccountButtons = true;
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4">
+            <partial name="_ManageNav" />
+        </div>
+        <div class="col-md-8 border rounded-3 p-3">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    @RenderSection("scripts", required: false)
+}

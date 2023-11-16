@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "Layouts/_Layout";
+}
+
+@section header {
+    <partial name="Partials/_HeaderPartial" />
+}
+
+@RenderBody()
+
+@section footer {
+    <partial name="Partials/_FooterPartial" />
+}
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}
