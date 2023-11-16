@@ -23,7 +23,22 @@ namespace AquaFlow.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Products()
+        {
+            return View();
+        }
+
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+
+        public IActionResult Community()
+        {
+            return View();
+        }
+
+        public IActionResult Partners()
         {
             return View();
         }

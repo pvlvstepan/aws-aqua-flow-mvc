@@ -1,18 +1,18 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using AquaFlow.Data;
 using AquaFlow.Areas.Identity.Data;
+using AquaFlow.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AquaFlowContextConnection") ?? throw new InvalidOperationException("Connection string 'AquaFlowContextConnection' not found.");
 
 builder.Services.AddDbContext<AquaFlowContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<AquaFlowUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AquaFlowContext>();
+builder.Services.AddDefaultIdentity<AquaFlowUser>(options => options.SignIn.RequireConfirmedEmail = false).AddEntityFrameworkStores<AquaFlowContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<CartManager>();
 
 var app = builder.Build();
 
@@ -34,6 +34,9 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+        name: "cart",
+        pattern: "{controller=Cart}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

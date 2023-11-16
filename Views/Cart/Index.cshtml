@@ -1,0 +1,39 @@
+﻿@model AquaFlow.Models.Cart
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.CartItems != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.Price</td>
+                    <td>@(item.Quantity * item.Product.Price)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Total: @Model.CartItems.Sum(ci => ci.Quantity * ci.Product.Price)</p>
+
+    <a asp-action="Checkout">Checkout</a>
+} else
+{
+    <p>No items in the cart.</p>
+}

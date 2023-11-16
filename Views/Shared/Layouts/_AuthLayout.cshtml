@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "Layouts/_Layout";
+    ViewBag.ShowAccountButtons = false;
+}
+
+@section header {
+    <partial name="Partials/_HeaderPartial" />
+}
+
+@RenderBody()
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}

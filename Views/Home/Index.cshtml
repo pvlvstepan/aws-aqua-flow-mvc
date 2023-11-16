@@ -2,9 +2,8 @@
     ViewData["Title"] = "Home";
 }
 
-<div 
-    class="p-5 text-center bg-body-tertiary"
-     style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://s3.amazonaws.com/aquaflow.assets/home-banner.jpg');background-size:cover">
+<section class="p-5 text-center bg-body-tertiary"
+         style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://s3.amazonaws.com/aquaflow.assets/home-banner.jpg');background-size:cover">
     <img class="mt-4 mb-3" width="100" height="100" src="https://s3.amazonaws.com/aquaflow.assets/logo.png" />
     <h1 class="text-white">AquaFlow: Your Source for Refreshing Water</h1>
     <p class="col-lg-6 mx-auto fs-5 text-white">
@@ -16,4 +15,51 @@
             <i class="bi bi-arrow-right ms-2"></i>
         </button>
     </div>
-</div>
+</section>
+<section class="py-5 container">
+     Products will go here
+</section>
+<section class="p-5 m-3 rounded-3 text-center bg-body-tertiary"
+         style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://s3.amazonaws.com/aquaflow.assets/aboutus-banner.jpg');background-size:cover">
+    <h1 class="text-white mt-5">AquaFlow: Crafting Pure Moments, Nurturing Healthy Lives</h1>
+    <p class="col-lg-6 mx-auto fs-5 text-white">
+        At AquaFlow, we go beyond delivering water – we deliver a promise of purity, a commitment to community, and a vision for a sustainable future. Discover our story, mission, and the passion that flows through every drop.
+    </p>
+    <div class="d-inline-flex gap-2 mb-5">
+        <a asp-area="" asp-controller="Home" asp-action="AboutUs" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+            Explore Our Journey
+        </a>
+    </div>
+</section>
+<section class="d-md-flex flex-md-equal m-3 mt-0 gap-3">
+    <div class="rounded-3 w-100 p-5 text-center bg-body-tertiary d-flex flex-column justify-content-center align-items-center"
+         style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://s3.amazonaws.com/aquaflow.assets/comunnity-banner.jpg');background-size:cover">
+
+        <h1 class="text-white">AquaFlow<br />Unites Communities</h1>
+
+        <p class="mx-auto fs-5 text-white">
+            Join the AquaFlow Community – Together, We Hydrate, Thrive, and Build a Sustainable Water Future.
+        </p>
+
+        <div class="d-inline-flex gap-2">
+            <a asp-area="" asp-controller="Home" asp-action="Community" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+                Join the Community
+            </a>
+        </div>
+    </div>
+    <div class="rounded-3 w-100 p-5 text-center bg-body-tertiary d-flex flex-column justify-content-center align-items-center"
+         style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://s3.amazonaws.com/aquaflow.assets/partners-banner.jpg');background-size:cover">
+
+        <h1 class="text-white">Empowering<br />Partnerships</h1>
+
+        <p class="mx-auto fs-5 text-white">
+            Collaborate with AquaFlow – Elevate Your Business with Premium Water Solutions and Unmatched Partnership Benefits.
+        </p>
+
+        <div class="d-inline-flex gap-2">
+            <a asp-area="" asp-controller="Home" asp-action="Partners" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
+                Partnership Opportunities
+            </a>
+        </div>
+    </div>
+</section>

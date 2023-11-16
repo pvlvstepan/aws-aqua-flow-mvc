@@ -2,46 +2,56 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Sign In";
+    ViewData["Title"] = "Log in";
 }
 
-<div class="flex-grow-1 d-flex">
-    <form class="m-auto col-6" id="account" method="post">
-        <img class="mb-4" src="https://s3.amazonaws.com/aquaflow.assets/logo.png" alt="" width="60" height="60">
-        <h1 class="h3 mb-3 fw-normal">Sign In with AquaFlow Account</h1>
-
-        <div class="form-floating">
-            <input asp-for="Input.Email" class="form-control rounded-bottom-0" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-            <label asp-for="Input.Email" class="form-label">Email</label>
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
-        </div>
-        <div class="form-floating">
-            <input asp-for="Input.Password" class="form-control rounded-top-0" autocomplete="current-password" aria-required="true" placeholder="password" />
-            <label asp-for="Input.Password" class="form-label">Password</label>
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
-        </div>
-
-        <div class="form-check text-start my-3">
-            <label asp-for="Input.RememberMe" class="form-label">
-                <input class="form-check-input" asp-for="Input.RememberMe" />
-                @Html.DisplayNameFor(m => m.Input.RememberMe)
-            </label>
-        </div>
-        <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-        <div class="mt-4 text-center">
-            <p>
-                <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-            </p>
-            <p>
-                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-            </p>
-            <p>
-                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-            </p>
-        </div>
-    </form>
+<div class="flex-grow-1 d-flex align-items-center justify-content-center">
+    <div class="container-sm">
+        <form style="max-width:520px;" class="mx-auto" id="account" method="post">
+            <ul class="nav border rounded-3 p-1 nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="tab-login" data-mdb-toggle="pill" role="tab"
+                       aria-controls="pills-login" aria-selected="true" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Login</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="tab-register" data-mdb-toggle="pill" role="tab"
+                       aria-controls="pills-register" aria-selected="false" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+                </li>
+            </ul>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email" class="form-label">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="d-flex mb-3 justify-content-between">
+                <div class="checkbox">
+                    <label asp-for="Input.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                </p>
+            </div>
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+            </div>
+            <div>
+                <p class="mt-3 text-center">
+                    Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+                </p>
+            </div>
+        </form>
+    </div>
 </div>
 
-@section Scripts {
+@section scripts {
     <partial name="_ValidationScriptsPartial" />
 }

@@ -1,0 +1,49 @@
+﻿<nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
+    <div class="container">
+        <a class="navbar-brand link-dark d-flex align-items-center gap-2" asp-area="" asp-controller="Home" asp-action="Index">
+            <img width="32" height="32" src="https://s3.amazonaws.com/aquaflow.assets/logo.png" />
+            AquaFlow
+        </a>
+
+        <div class="d-md-none d-flex gap-2">
+            @if (ViewBag.ShowAccountButtons != null && ViewBag.ShowAccountButtons)
+            {
+                <partial name="Partials/_CartPartial" />
+                <partial name="Partials/_LoginPartial" />
+            }
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="#navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+
+
+
+        <div class="navbar-collapse collapse" id="navbar-collapse" style="">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link link-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark" asp-area="" asp-controller="Home" asp-action="Products">Products</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle link-dark" href="#" data-bs-toggle="dropdown">About</a>
+                    <ul class="dropdown-menu">
+                        <li> <a class="dropdown-item link-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">Our Company</a></li>
+                        <li> <a class="dropdown-item link-dark" asp-area="" asp-controller="Home" asp-action="Community">Community</a></li>
+                        <li> <a class="dropdown-item link-dark" asp-area="" asp-controller="Home" asp-action="Partners">Partners</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="d-none d-md-flex gap-2">
+                @if (ViewBag.ShowAccountButtons != null && ViewBag.ShowAccountButtons)
+                {
+                    <partial name="Partials/_CartPartial" />
+                    <partial name="Partials/_LoginPartial" />
+                }
+            </div>
+        </div>
+    </div>
+</nav>
