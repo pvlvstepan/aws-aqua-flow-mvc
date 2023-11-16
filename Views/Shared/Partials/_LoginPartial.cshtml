@@ -4,6 +4,10 @@
 @inject SignInManager<AquaFlowUser> SignInManager
 @inject UserManager<AquaFlowUser> UserManager
 
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -15,7 +19,7 @@
             <i class="bi bi-person-fill d-sm-none"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-            <li><span class="dropdown-item-text">@UserManager.GetUserName(User)</span></li>
+            <li><span class="dropdown-item-text">@user.FullName</span></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Orders</a></li>
             <li><a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a></li>
