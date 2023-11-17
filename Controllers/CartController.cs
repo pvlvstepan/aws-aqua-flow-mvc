@@ -1,6 +1,7 @@
 ﻿using AquaFlow.Areas.Identity.Data;
 using AquaFlow.Data;
 using AquaFlow.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace AquaFlow.Controllers
             _cartManager = new CartManager(context, userManager);
         }
 
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
