@@ -1,0 +1,51 @@
+﻿@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Manage Products";
+    ViewData["ActivePage"] = ManageAdminPages.ManageProducts;
+}
+
+<h2>Manage Products</h2>
+
+@if (Model.ProductsList.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Stock Quantity</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.ProductsList)
+            {
+                <tr>
+                    <td>@product.ProductId</td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price</td>
+                    <td>@product.StockQuantity</td>
+                    <td>@product.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id=@product.ProductId class="btn btn-warning">Edit</a>
+                        <a asp-page="./Delete" asp-route-id=@product.ProductId class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No products available.</p>
+}
+
+<div>
+    <a asp-page="./Create" class="btn btn-primary">Create New Product</a>
+</div>

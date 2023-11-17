@@ -1,7 +1,5 @@
-﻿@model AquaFlow.Models.Cart
-@using Microsoft.AspNetCore.Identity
-@using AquaFlow.Areas.Identity.Data
-
+﻿@page
+@model CartModel
 
 @inject UserManager<AquaFlowUser> UserManager
 
@@ -23,11 +21,11 @@
         userAddress = $"{user.Street}, {user.City}, {user.State} {user.ZipCode}";
     }
 
-    if (Model.CartItems != null && Model.CartItems.Count() > 0)
+    if (Model.Cart.CartItems != null && Model.Cart.CartItems.Count() > 0)
     {
         shipping = 10.0m; // Defaults to RM 10, can be moved to the admin panel potentially
-        totalItems = Model.CartItems.Count();
-        subTotal = Model.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);
+        totalItems = Model.Cart.CartItems.Count();
+        subTotal = Model.Cart.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);
         tax = (subTotal + shipping) * 0.06m;
         total = subTotal + shipping + tax;
     }
@@ -51,9 +49,9 @@
                         <p class="mb-0">You have @totalItems items in your cart</p>
                     </div>
 
-                    @if (Model.CartItems != null)
+                    @if (Model.Cart.CartItems != null)
                     {
-                        foreach (var item in Model.CartItems)
+                        foreach (var item in Model.Cart.CartItems)
                         {
                             <div class="card mb-3">
                                 <div class="card-body">

@@ -2,7 +2,6 @@
 using AquaFlow.Data;
 using AquaFlow.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,23 +11,40 @@ namespace AquaFlow.Controllers
     {
 
         private readonly AquaFlowContext _context;
-        private readonly UserManager<AquaFlowUser> _userManager;
-        private readonly CartManager _cartManager;
 
-        public CartController(AquaFlowContext context, UserManager<AquaFlowUser> userManager)
+        public CartController(AquaFlowContext context)
         {
             _context = context;
-            _userManager = userManager;
-            _cartManager = new CartManager(context, userManager);
         }
 
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> Index()
+        public async Task<Cart> GetOrCreateCartForUserAsync(AquaFlowUser user)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var cart = await _cartManager.GetOrCreateCartForUserAsync(user);
+            var cart = await _context.Carts
+                .Include(c => c.CartItems)
+                    .ThenInclude(ci => ci.Product)
+                .FirstOrDefaultAsync(c => c.User.Id == user.Id);
 
-            return View(cart);
+            if (cart == null)
+            {
+                cart = new Cart
+                {
+                    User = user,
+                    CreatedAt = DateTime.Now,
+                    CartItems = new List<CartItem>()
+                };
+
+                _context.Carts.Add(cart);
+                await _context.SaveChangesAsync();
+            }
+
+            return cart;
+        }
+
+        public async Task<int> GetCartItemCountAsync(AquaFlowUser user)
+        {
+            var cart = await GetOrCreateCartForUserAsync(user);
+            return cart.CartItems?.Sum(ci => ci.Quantity) ?? 0;
         }
     }
 }
