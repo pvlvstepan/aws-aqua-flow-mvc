@@ -49,6 +49,13 @@
                         <p class="mb-0">You have @totalItems items in your cart</p>
                     </div>
 
+                    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                    {
+                        <div class="alert alert-success mb-4" role="alert">
+                            @Model.SuccessMessage
+                        </div>
+                    }
+
                     @if (Model.Cart.CartItems != null)
                     {
                         foreach (var item in Model.Cart.CartItems)

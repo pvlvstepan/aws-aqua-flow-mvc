@@ -15,7 +15,9 @@ namespace AquaFlow.Areas.Identity.Pages.Cart
         private readonly AquaFlowContext _context;
         private readonly UserManager<AquaFlowUser> _userManager;
 
-     public CartModel(AquaFlowContext context, CartController cartController, UserManager<AquaFlowUser> userManager)
+        public string SuccessMessage { get; set; }
+
+        public CartModel(AquaFlowContext context, CartController cartController, UserManager<AquaFlowUser> userManager)
         {
             _cartController = cartController;
             _userManager = userManager;
@@ -60,8 +62,7 @@ namespace AquaFlow.Areas.Identity.Pages.Cart
             // Clear the user's cart after placing the order
             await _cartController.ClearCartAsync(user);
 
-            // Redirect to a confirmation page or another appropriate action
-            // Example: return RedirectToPage("/OrderConfirmation");
+            SuccessMessage = "Order placed successfully!";
         }
     }
 }
