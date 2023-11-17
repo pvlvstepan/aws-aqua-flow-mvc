@@ -40,7 +40,7 @@ app.MapControllerRoute(
         pattern: "{controller=Cart}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "Orders",
-    pattern: "{controller=Orders}/{action=Index}/{id?}");
+    pattern: "{controller=Orders}/{action=OrdersList}/{id?}");
 app.MapRazorPages();
 
 app.Run();
