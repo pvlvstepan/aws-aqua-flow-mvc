@@ -73,9 +73,4 @@ public class OrderManager
             }).ToList()
         };
     }
-
-    internal Task<string?> GetUserOrdersAsync(AquaFlowUser? user)
-    {
-        throw new NotImplementedException();
-    }
 }

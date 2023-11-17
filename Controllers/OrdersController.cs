@@ -24,8 +24,6 @@ namespace AquaFlow.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-
-            // Use your OrderManager to get the user's orders
             var orders = await _orderManager.GetUserOrdersAsync(user);
 
             return View(orders);
