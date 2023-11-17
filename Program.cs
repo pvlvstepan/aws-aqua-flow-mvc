@@ -19,7 +19,9 @@ builder.Services.AddDefaultIdentity<AquaFlowUser>(options =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
 builder.Services.AddScoped<CartController>();
+builder.Services.AddScoped<OrderManager>();
 
 var app = builder.Build();
 
@@ -49,6 +51,10 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "products",
     pattern: "{controller=Products}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "Orders",
+    pattern: "{controller=Orders}/{action=OrdersList}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();

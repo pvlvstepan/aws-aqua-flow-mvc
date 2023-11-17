@@ -8,7 +8,8 @@ namespace AquaFlow.Models
     {
         public int OrderID { get; set; }
 
-        public required virtual AquaFlowUser User { get; set; }
+        [Required]
+        public virtual AquaFlowUser User { get; set; }
 
         [Required]
         public string Address { get; set; }
@@ -27,3 +28,4 @@ namespace AquaFlow.Models
         public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }
+

@@ -1,13 +1,27 @@
-﻿@model List<Order>
+﻿@using Microsoft.AspNetCore.Identity
+@using AquaFlow.Areas.Identity.Data
 
-<h2>Orders:</h2>
-<ul>
-    @foreach (var order in Model)
-    {
-        <li>
-            <strong>Order ID:</strong> @order.OrderID<br />
-            <strong>Order Date:</strong> @order.OrderDate<br />
-            <strong>Total Amount:</strong> @order.TotalAmount.ToString("C")
-        </li>
-    }
-</ul>
+@inject SignInManager<AquaFlowUser> SignInManager
+@inject UserManager<AquaFlowUser> UserManager
+@inject OrderManager OrderManagment
+
+@if (Model != null && Model.Any())
+{
+    <h6 class="dropdown-header">Orders</h6>
+    <ul class="list-unstyled">
+        @foreach (var order in Model)
+        {
+            <li>
+                <a class="dropdown-item" asp-controller="Orders" asp-action="Details" asp-route-id="@order.OrderID">
+                    <strong>Order ID:</strong> @order.OrderID<br />
+                    <strong>Order Date:</strong> @order.OrderDate<br />
+                    <strong>Total Amount:</strong> @order.TotalAmount.ToString("C")
+                </a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p class="dropdown-item-text">No orders available.</p>
+}

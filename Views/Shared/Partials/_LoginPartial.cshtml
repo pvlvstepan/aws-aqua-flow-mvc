@@ -29,7 +29,7 @@
                 <li><a class="dropdown-item" asp-area="Admin" asp-page="/Manage/Orders/Index">Admin Panel</a></li>
             } else
             {
-                <li><a class="dropdown-item" href="#">Orders</a></li>
+                <li> <a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a></li>
             }
             <li><a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
