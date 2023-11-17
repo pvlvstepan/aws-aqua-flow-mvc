@@ -10,16 +10,20 @@
     var user = await UserManager.GetUserAsync(User);
     int cartItemCount = await CartManager.GetCartItemCountAsync(user);
 
-    <div class="flex-shrink-0 ms-2">
-        <a asp-area="" asp-controller="Cart" asp-action="Index" type="button" class="d-block ms-auto btn btn-outline-primary position-relative">
-            <i class="bi bi-cart-fill"></i>
-            @if (cartItemCount > 0)
-            {
-                <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
-                    @cartItemCount
-                    <span class="visually-hidden">Cart Items</span>
-                </span>
-            }
-        </a>
-    </div>
+    // display car button only if user is not admin
+    @if (!await UserManager.IsInRoleAsync(user, "Admin"))
+    {
+        <div class="flex-shrink-0 ms-2">
+            <a asp-area="" asp-controller="Cart" asp-action="Index" type="button" class="d-block ms-auto btn btn-outline-primary position-relative">
+                <i class="bi bi-cart-fill"></i>
+                @if (cartItemCount > 0)
+                {
+                    <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
+                        @cartItemCount
+                        <span class="visually-hidden">Cart Items</span>
+                    </span>
+                }
+            </a>
+        </div>
+    }
 }
