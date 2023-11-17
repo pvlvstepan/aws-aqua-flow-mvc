@@ -1,30 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using AquaFlow.Areas.Identity.Data;
+using AquaFlow.Controllers;
 using AquaFlow.Data;
-using AquaFlow.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace AquaFlow.Controllers
+public class ProductsController : Controller
 {
-    public class ProductsController : Controller
+    private readonly AquaFlowContext _context;
+    private readonly CartController _cartController;
+    private readonly UserManager<AquaFlowUser> _userManager;
+
+    public ProductsController(AquaFlowContext context, CartController cartController, UserManager<AquaFlowUser> userManager)
     {
-        private readonly AquaFlowContext _context;
+        _context = context;
+        _cartController = cartController;
+        _userManager = userManager;
+    }
 
-        public ProductsController(AquaFlowContext context)
-        {
-            _context = context;
-        }
+    // GET: Products
+    public async Task<IActionResult> Index()
+    {
+        return _context.Products != null
+            ? View(await _context.Products.ToListAsync())
+            : Problem("Entity set 'AquaFlowContext.Products' is null.");
+    }
 
-        // GET: Products
-        public async Task<IActionResult> Index()
-        {
-              return _context.Products != null ? 
-                          View(await _context.Products.ToListAsync()) :
-                          Problem("Entity set 'AquaFlowContext.Products'  is null.");
-        }
+    // Action to handle adding items to the cart
+    [HttpPost]
+    public async Task<IActionResult> AddToCart(int productId)
+    {
+
+        var user = await _userManager.GetUserAsync(User);
+
+        // Call the AddToCart function from CartController
+        await _cartController.AddToCart(productId, 1, user);
+
+        return LocalRedirect("/Identity/Cart");
     }
 }

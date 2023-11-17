@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Product>
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -17,7 +18,28 @@
     </div>
 </section>
 <section class="py-5 container">
-     Products will go here
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-img-top mb-3 bg-info" style="height: 200px;"></div>
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-subtitle">RM @product.Price.ToString("0.00")</p>
+                        <p class="card-text">@product.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <form asp-action="AddToCart" asp-controller="Home" method="post">
+                                <input type="hidden" name="productId" value="@product.ProductId" />
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </form>
+                            <p class="card-subtitle">@product.StockQuantity Left</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </section>
 <section class="p-5 m-3 rounded-3 text-center bg-body-tertiary"
          style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://s3.amazonaws.com/aquaflow.assets/aboutus-banner.jpg');background-size:cover">
