@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Pages\Manage\Users\" />
-    <Folder Include="Areas\Admin\Pages\Manage\Orders\" />
   </ItemGroup>
 
 </Project>
