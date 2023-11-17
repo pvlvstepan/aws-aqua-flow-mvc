@@ -37,6 +37,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
         name: "cart",
         pattern: "{controller=Cart}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "orders",
+    pattern: "{controller=Orders}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

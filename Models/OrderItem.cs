@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AquaFlow.Models;
 
 namespace AquaFlow.Models
 {
