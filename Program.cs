@@ -2,7 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using AquaFlow.Areas.Identity.Data;
 using AquaFlow.Data;
 using Microsoft.AspNetCore.Identity;
-using NuGet.Protocol;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using AquaFlow.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AquaFlowContextConnection") ?? throw new InvalidOperationException("Connection string 'AquaFlowContextConnection' not found.");
@@ -16,10 +17,9 @@ builder.Services.AddDefaultIdentity<AquaFlowUser>(options =>
 
 // Add services to the container.
 
-builder.Services.AddScoped<CartManager>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
+builder.Services.AddScoped<CartController>();
 
 var app = builder.Build();
 
@@ -46,9 +46,7 @@ CreateRolesAndDefaultUser(app.Services, builder.Configuration).Wait();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute(
-        name: "cart",
-        pattern: "{controller=Cart}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();
@@ -93,7 +91,8 @@ async Task CreateRolesAndDefaultUser(IServiceProvider serviceProvider, IConfigur
             // Assign the new user the "Admin" role
             await userManager.AddToRoleAsync(superuser, "Admin");
             Console.WriteLine("Superuser created successfully.");
-        } else
+        }
+        else
         {
             Console.WriteLine("Error creating superuser:");
             foreach (var error in createSuperUser.Errors)
@@ -101,7 +100,8 @@ async Task CreateRolesAndDefaultUser(IServiceProvider serviceProvider, IConfigur
                 Console.WriteLine(error.Description);
             }
         }
-    } else
+    }
+    else
     {
         Console.WriteLine("Superuser already exists.");
     }

@@ -26,16 +26,6 @@ public class AquaFlowContext : IdentityDbContext<AquaFlowUser>
             new Product { ProductId = 2, Name = "Product 2", Price = 19.99m, StockQuantity = 50, CreatedAt = DateTime.Now }
         );
 
-        var superuserEmail = "test@example.com";
-        var superuserPassword = "superpassword";
-
-       
-
-        var superuser = new AquaFlowUser
-        {
-            UserName = superuserEmail,
-            Email = superuserEmail,
-        };
 
         base.OnModelCreating(builder);
         // Customize the ASP.NET Identity model and override the defaults if needed.
