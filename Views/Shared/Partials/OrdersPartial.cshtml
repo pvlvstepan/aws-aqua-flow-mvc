@@ -1,4 +1,9 @@
-﻿@model List<Order>
+﻿@using Microsoft.AspNetCore.Identity
+@using AquaFlow.Areas.Identity.Data
+
+@inject SignInManager<AquaFlowUser> SignInManager
+@inject UserManager<AquaFlowUser> UserManager
+@inject OrderManager OrderManagment
 
 @if (Model != null && Model.Any())
 {
@@ -7,7 +12,7 @@
         @foreach (var order in Model)
         {
             <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" asp-controller="Orders" asp-action="Details" asp-route-id="@order.OrderID">
                     <strong>Order ID:</strong> @order.OrderID<br />
                     <strong>Order Date:</strong> @order.OrderDate<br />
                     <strong>Total Amount:</strong> @order.TotalAmount.ToString("C")

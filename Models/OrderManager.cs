@@ -24,7 +24,7 @@ public class OrderManager
 
         if (user != null)
         {
-            var cart = await GetOrCreateCartForUserAsync(user);
+            var (cart, _) = await GetOrCreateCartAndOrdersForUserAsync(user);
 
             if (cart != null && cart.CartItems.Any())
             {
@@ -37,7 +37,16 @@ public class OrderManager
             }
         }
     }
-    private async Task<Cart> GetOrCreateCartForUserAsync(AquaFlowUser user)
+
+    public async Task<List<Order>> GetUserOrdersAsync(AquaFlowUser user)
+    {
+        return await _context.Orders
+            .Include(o => o.OrderItems)
+            .Where(o => o.User.Id == user.Id)
+            .ToListAsync();
+    }
+
+    private async Task<(Cart cart, List<Order> orders)> GetOrCreateCartAndOrdersForUserAsync(AquaFlowUser user)
     {
         var cart = await _context.Carts
             .Include(c => c.CartItems)
@@ -56,7 +65,9 @@ public class OrderManager
             await _context.SaveChangesAsync();
         }
 
-        return cart;
+        var orders = await GetUserOrdersAsync(user);
+
+        return (cart, orders);
     }
 
     private Order CreateOrderFromCart(AquaFlowUser user, string shippingAddress, Cart cart)
