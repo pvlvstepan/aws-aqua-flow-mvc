@@ -1,19 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using AquaFlow.Areas.Identity.Data
-@model List<AquaFlow.Models.Order>  
-
-@{
-    // other code...
-}
-@inject UserManager<AquaFlowUser> UserManager
-
-<h1>Orders List</h1>
-
-<p>
-    <a asp-page="/Create">Create New</a>
-</p>
+﻿@model List<AquaFlow.Models.Order>  
 
 <section class="container py-5 flex-grow-1">
+    <h1>Orders List</h1>
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-lg-12">
 
@@ -40,8 +28,8 @@
                                 <td>RM @item.TotalAmount.ToString("0.00")</td>
                                 <td>@item.Status</td>
                                 <td>
-                                    <a asp-page="./Details" asp-route-id="@item.OrderID">Details</a> |
-                                    <a asp-page="./Delete" asp-route-id="@item.OrderID">Delete</a>
+                                    <a asp-page="/Details" asp-route-id="@item.OrderID">Details</a> |
+                                    <a asp-page="/Delete" asp-route-id="@item.OrderID">Delete</a>
                                 </td>
                             </tr>
                         }
