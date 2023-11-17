@@ -1,7 +1,5 @@
-﻿@model AquaFlow.Models.Cart
-@using Microsoft.AspNetCore.Identity
-@using AquaFlow.Areas.Identity.Data
-
+﻿@page
+@model CartModel
 
 @inject UserManager<AquaFlowUser> UserManager
 
@@ -23,12 +21,12 @@
         userAddress = $"{user.Street}, {user.City}, {user.State} {user.ZipCode}";
     }
 
-    if (Model.CartItems != null && Model.CartItems.Count() > 0)
+    if (Model.Cart.CartItems != null && Model.Cart.CartItems.Count() > 0)
     {
         shipping = 10.0m; // Defaults to RM 10, can be moved to the admin panel potentially
-        totalItems = Model.CartItems.Count();
-        subTotal = Model.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);
-        tax = (subTotal + shipping) * 0.06m;
+        totalItems = Model.Cart.CartItems.Count();
+        subTotal = Model.Cart.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);
+        tax = (subTotal) * 0.06m;
         total = subTotal + shipping + tax;
     }
 }
@@ -51,17 +49,24 @@
                         <p class="mb-0">You have @totalItems items in your cart</p>
                     </div>
 
-                    @if (Model.CartItems != null)
+                    @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                     {
-                        foreach (var item in Model.CartItems)
+                        <div class="alert alert-success mb-4" role="alert">
+                            @Model.SuccessMessage
+                        </div>
+                    }
+
+                    @if (Model.Cart.CartItems != null)
+                    {
+                        foreach (var item in Model.Cart.CartItems)
                         {
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex flex-row align-items-center">
                                             <div>
-                                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                                     class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                <img 
+                                                     class="img-fluid rounded-3 bg-info" style="width: 65px; height:65px;">
                                             </div>
                                             <div class="ms-3">
                                                 <h5>@item.Product.Name</h5>
@@ -138,13 +143,14 @@
                                 <p class="mb-2">RM @total.ToString("0.00")</p>
                             </div>
 
-                            <button type="button" class="btn btn-light btn-block btn-lg w-100" @(totalItems > 0 && !string.IsNullOrEmpty(userAddress) ? "" : "disabled")>
-                                <div class="d-flex justify-content-between">
-                                    <span>RM @total.ToString("0.00")</span>
-                                    <span>Place Order <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
-                                </div>
-                            </button>
-
+                            <form id="bruh" class="w-100" method="post">
+                                <button type="submit" class="btn btn-light btn-block btn-lg w-100" @(totalItems > 0 && !string.IsNullOrEmpty(userAddress) ? "" : "disabled")>
+                                    <div class="d-flex justify-content-between">
+                                        <span>RM @total.ToString("0.00")</span>
+                                        <span>Place Order <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                    </div>
+                                </button>
+                            </form>
                         </div>
                     </div>
 

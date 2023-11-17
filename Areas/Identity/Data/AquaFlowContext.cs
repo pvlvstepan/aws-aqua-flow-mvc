@@ -1,5 +1,6 @@
 ﻿using AquaFlow.Areas.Identity.Data;
 using AquaFlow.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ public class AquaFlowContext : IdentityDbContext<AquaFlowUser>
             new Product { ProductId = 1, Name = "Product 1", Price = 10.99m, StockQuantity = 100, CreatedAt = DateTime.Now },
             new Product { ProductId = 2, Name = "Product 2", Price = 19.99m, StockQuantity = 50, CreatedAt = DateTime.Now }
         );
+
 
         base.OnModelCreating(builder);
         // Customize the ASP.NET Identity model and override the defaults if needed.
