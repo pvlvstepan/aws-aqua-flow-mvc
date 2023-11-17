@@ -1,4 +1,8 @@
 ﻿@model List<Product>
+@using Microsoft.AspNetCore.Identity
+@using AquaFlow.Areas.Identity.Data
+
+@inject SignInManager<AquaFlowUser> SignInManager
 @{
     ViewData["Title"] = "Home";
 }
@@ -29,10 +33,13 @@
                         <p class="card-subtitle">RM @product.Price.ToString("0.00")</p>
                         <p class="card-text">@product.Description</p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <form asp-action="AddToCart" asp-controller="Home" method="post">
-                                <input type="hidden" name="productId" value="@product.ProductId" />
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
-                            </form>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <form asp-action="AddToCart" asp-controller="Home" method="post">
+                                    <input type="hidden" name="productId" value="@product.ProductId" />
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
+                            }
                             <p class="card-subtitle">@product.StockQuantity Left</p>
                         </div>
                     </div>
