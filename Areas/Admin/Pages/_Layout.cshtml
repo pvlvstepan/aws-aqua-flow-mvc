@@ -1,19 +1,30 @@
 ﻿@{
+    // Set the layout for the admin panel view
     Layout = "/Views/Shared/Layouts/_HomeLayout.cshtml";
+
+    // Indicate that account buttons should be shown
     ViewBag.ShowAccountButtons = true;
 }
 
+<!-- Container for the admin panel with padding -->
 <div class="container py-5">
     <div class="row">
+        <!-- Admin navigation column -->
         <div class="col-md-4">
+            <!-- Include the navigation partial view -->
             <partial name="_AdminNav" />
         </div>
+
+        <!-- Main content column with border and padding -->
         <div class="col-md-8 border rounded-3 p-3">
+            <!-- Render the main content of the view -->
             @RenderBody()
         </div>
     </div>
 </div>
 
+<!-- Section for rendering scripts at the end of the view -->
 @section scripts {
+    <!-- Render additional scripts if defined in the view (optional) -->
     @RenderSection("scripts", required: false)
 }

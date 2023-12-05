@@ -2,13 +2,15 @@
 @model AquaFlow.Areas.Admin.Pages.Manage.Products.DeleteModel
 
 @{
+    // Set the page title
     ViewData["Title"] = "Delete";
 }
 
-
+<!-- Page heading -->
 <h2>Are you sure you want to delete this Product?</h2>
 
 <div>
+    <!-- Display details of the product to be deleted -->
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -42,9 +44,13 @@
             @Html.DisplayFor(model => model.Product.CreatedAt)
         </dd>
     </dl>
-    
+
+    <!-- Form for submitting the delete product action -->
     <form method="post">
+        <!-- Hidden input for ProductId -->
         <input type="hidden" asp-for="Product.ProductId" />
+
+        <!-- Buttons to confirm or cancel the delete action -->
         <div class="form-group mt-3 d-flex gap-2">
             <button type="submit" class="btn btn-danger">Delete</button>
             <a asp-page="./Index" class="btn btn-secondary">Back to List</a>

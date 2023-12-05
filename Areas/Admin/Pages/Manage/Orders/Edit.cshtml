@@ -2,39 +2,54 @@
 @model EditModel
 
 @{
+    // Set the page title and active page in ViewData
     ViewData["Title"] = "Edit";
     ViewData["ActivePage"] = ManageAdminPages.ManageOrders;
 }
 
+<!-- Page heading -->
 <h1>Edit</h1>
 
+<!-- Order details section -->
 <h4>Order</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
+        <!-- Form for submitting the edit action -->
         <form method="post">
+            <!-- Display model validation errors summary -->
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Hidden input for OrderID -->
             <input type="hidden" asp-for="Order.OrderID" />
+
+            <!-- Form fields for editing order details -->
             <div class="form-group">
                 <label asp-for="Order.Address" class="control-label"></label>
                 <input asp-for="Order.Address" class="form-control" />
                 <span asp-validation-for="Order.Address" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Order.OrderDate" class="control-label"></label>
                 <input asp-for="Order.OrderDate" class="form-control" />
                 <span asp-validation-for="Order.OrderDate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Order.TotalAmount" class="control-label"></label>
                 <input asp-for="Order.TotalAmount" class="form-control" />
                 <span asp-validation-for="Order.TotalAmount" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Order.Status" class="control-label"></label>
                 <input asp-for="Order.Status" class="form-control" />
                 <span asp-validation-for="Order.Status" class="text-danger"></span>
             </div>
+
+            <!-- Submit button to save changes -->
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -42,10 +57,14 @@
     </div>
 </div>
 
+<!-- Link to navigate back to the list of orders -->
 <div>
     <a asp-page="./Index">Back to List</a>
 </div>
 
+<!-- Section for script references, including validation scripts -->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -2,35 +2,43 @@
 @model DeleteModel
 
 @{
+    // Set the page title and active page in ViewData
     ViewData["Title"] = "Delete";
     ViewData["ActivePage"] = ManageAdminPages.ManageOrders;
 }
 
+<!-- Page heading -->
 <h1>Delete</h1>
 
+<!-- Confirmation message -->
 <h3>Are you sure you want to delete this?</h3>
 <div>
+    <!-- Order details section -->
     <h4>Order</h4>
     <hr />
     <dl class="row">
+        <!-- Display order address -->
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Order.Address)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Order.Address)
         </dd>
+        <!-- Display order date -->
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Order.OrderDate)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Order.OrderDate)
         </dd>
+        <!-- Display order total amount -->
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Order.TotalAmount)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Order.TotalAmount)
         </dd>
+        <!-- Display order status -->
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Order.Status)
         </dt>
@@ -38,10 +46,14 @@
             @Html.DisplayFor(model => model.Order.Status)
         </dd>
     </dl>
-    
+
+    <!-- Form for submitting the delete action -->
     <form method="post">
+        <!-- Hidden input for OrderID -->
         <input type="hidden" asp-for="Order.OrderID" />
+        <!-- Delete button -->
         <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <!-- Link to navigate back to the list of orders -->
         <a asp-page="./Index">Back to List</a>
     </form>
 </div>

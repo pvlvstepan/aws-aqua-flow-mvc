@@ -2,17 +2,21 @@
 @model IndexModel
 
 @{
+    // Set the page title and active page in ViewData
     ViewData["Title"] = "Manage Orders";
     ViewData["ActivePage"] = ManageAdminPages.ManageOrders;
 }
 
+<!-- Page heading -->
 <h2>Manage Orders</h2>
 
 @if (Model.Order.Any())
 {
+    <!-- Display a table if there are orders available -->
     <table class="table">
         <thead>
             <tr>
+                <!-- Table headers -->
                 <th>Address</th>
                 <th>Order Date</th>
                 <th>Total Amount</th>
@@ -21,6 +25,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Loop through each order and display its details -->
             @foreach (var item in Model.Order)
             {
                 <tr>
@@ -28,6 +33,8 @@
                     <td>@Html.DisplayFor(modelItem => item.OrderDate)</td>
                     <td>@Html.DisplayFor(modelItem => item.TotalAmount)</td>
                     <td>@Html.DisplayFor(modelItem => item.Status)</td>
+
+                    <!-- Actions for each order (Edit, Details, Delete) -->
                     <td>
                         <a asp-page="./Edit" asp-route-id="@item.OrderID" class="btn btn-warning">Edit</a>
                         <a asp-page="./Details" asp-route-id="@item.OrderID" class="btn btn-info">Details</a>
@@ -40,9 +47,11 @@
 }
 else
 {
+    <!-- Display a message if no orders are available -->
     <p>No orders available.</p>
 }
 
+<!-- Link to create a new order -->
 <div>
     <a asp-page="Create" class="btn btn-primary">Create New Order</a>
 </div>

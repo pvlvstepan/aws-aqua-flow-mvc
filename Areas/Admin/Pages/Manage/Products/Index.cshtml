@@ -2,17 +2,21 @@
 @model IndexModel
 
 @{
+    // Set the page title and active page in ViewData
     ViewData["Title"] = "Manage Products";
     ViewData["ActivePage"] = ManageAdminPages.ManageProducts;
 }
 
+<!-- Page heading -->
 <h2>Manage Products</h2>
 
 @if (Model.ProductsList.Any())
 {
+    <!-- Display a table if there are products available -->
     <table class="table">
         <thead>
             <tr>
+                <!-- Table headers -->
                 <th>Product ID</th>
                 <th>Name</th>
                 <th>Description</th>
@@ -23,6 +27,7 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Loop through each product and display its details -->
             @foreach (var product in Model.ProductsList)
             {
                 <tr>
@@ -32,6 +37,8 @@
                     <td>@product.Price</td>
                     <td>@product.StockQuantity</td>
                     <td>@product.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")</td>
+
+                    <!-- Actions for each product (Edit, Delete) -->
                     <td>
                         <a asp-page="./Edit" asp-route-id=@product.ProductId class="btn btn-warning">Edit</a>
                         <a asp-page="./Delete" asp-route-id=@product.ProductId class="btn btn-danger">Delete</a>
@@ -43,9 +50,11 @@
 }
 else
 {
+    <!-- Display a message if no products are available -->
     <p>No products available.</p>
 }
 
+<!-- Link to create a new product -->
 <div>
     <a asp-page="./Create" class="btn btn-primary">Create New Product</a>
 </div>
