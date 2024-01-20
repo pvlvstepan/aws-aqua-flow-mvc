@@ -13,11 +13,13 @@ namespace AquaFlow.Controllers
 
         private readonly AquaFlowContext _context;
         private readonly UserManager<AquaFlowUser> _userManager;
+        private readonly SQSManager _sqsManager;
 
         public CartController(AquaFlowContext context, UserManager<AquaFlowUser> userManager)
         {
             _context = context;
             _userManager = userManager;
+            _sqsManager = sqsManager;
         }
 
         [Authorize(Roles = "User")]
