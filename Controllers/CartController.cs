@@ -75,6 +75,9 @@ namespace AquaFlow.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            // Send a message to SQS when an item is added to the cart
+            _sqsManager.SendMessageToQueue($"Item added to cart: {product.ProductName}");
         }
 
         public decimal CalculateTotalWithTaxAndShipping(Cart cart)
@@ -100,6 +103,9 @@ namespace AquaFlow.Controllers
 
             _context.CartItems.RemoveRange(cart.CartItems);
             await _context.SaveChangesAsync();
+
+            // Send a message to SQS when the cart is cleared
+            _sqsManager.SendMessageToQueue("Cart cleared");
         }
     }
 }
