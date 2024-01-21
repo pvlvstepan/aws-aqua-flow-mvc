@@ -26,6 +26,9 @@
             @foreach (var product in Model.ProductsList)
             {
                 <tr>
+                    <td>
+                        <img src=@product.ImagePath alt=@product.Name class="img-thumbnail"/>
+                    </td>
                     <td>@product.ProductId</td>
                     <td>@product.Name</td>
                     <td>@product.Description</td>
