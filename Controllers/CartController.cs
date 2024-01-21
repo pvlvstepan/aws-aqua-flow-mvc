@@ -13,11 +13,15 @@ namespace AquaFlow.Controllers
 
         private readonly AquaFlowContext _context;
         private readonly UserManager<AquaFlowUser> _userManager;
+        private readonly SQSManager _sqsManager;
+        private readonly SNSManager snsManager;
 
         public CartController(AquaFlowContext context, UserManager<AquaFlowUser> userManager)
         {
             _context = context;
             _userManager = userManager;
+            _sqsManager = sqsManager;
+            snsManager = new SNSManager();
         }
 
         [Authorize(Roles = "User")]
@@ -75,6 +79,12 @@ namespace AquaFlow.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            // Send a message to SQS when an item is added to the cart
+            _sqsManager.SendMessageToQueue($"Item added to cart: {product.ProductName}");
+
+            // Publish a notification to SNS when an item is added to the cart
+            snsManager.PublishMessage($"Item added to cart: ProductId={productId}, Quantity={quantity}, User={user.UserName}")
         }
 
         public decimal CalculateTotalWithTaxAndShipping(Cart cart)
@@ -100,6 +110,9 @@ namespace AquaFlow.Controllers
 
             _context.CartItems.RemoveRange(cart.CartItems);
             await _context.SaveChangesAsync();
+
+            // Send a message to SQS when the cart is cleared
+            _sqsManager.SendMessageToQueue("Cart cleared");
         }
     }
 }
