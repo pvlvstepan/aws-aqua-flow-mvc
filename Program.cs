@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using AquaFlow.Areas.Identity.Data;
 using AquaFlow.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using AquaFlow.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +21,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<CartController>();
 builder.Services.AddScoped<OrderManager>();
+
+builder.Services.AddSingleton<IStorageService, S3StorageService>();
 
 var app = builder.Build();
 

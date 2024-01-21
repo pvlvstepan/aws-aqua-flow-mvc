@@ -4,6 +4,7 @@ using AquaFlow.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AquaFlow.Migrations
 {
     [DbContext(typeof(AquaFlowContext))]
-    partial class AquaFlowContextModelSnapshot : ModelSnapshot
+    [Migration("20240120085007_mssql.local_migration_217")]
+    partial class mssqllocal_migration_217
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,9 +230,6 @@ namespace AquaFlow.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -248,7 +248,7 @@ namespace AquaFlow.Migrations
                         new
                         {
                             ProductId = 1,
-                            CreatedAt = new DateTime(2024, 1, 21, 13, 7, 22, 432, DateTimeKind.Local).AddTicks(3367),
+                            CreatedAt = new DateTime(2024, 1, 20, 16, 50, 6, 968, DateTimeKind.Local).AddTicks(4316),
                             Name = "Product 1",
                             Price = 10.99m,
                             StockQuantity = 100
@@ -256,7 +256,7 @@ namespace AquaFlow.Migrations
                         new
                         {
                             ProductId = 2,
-                            CreatedAt = new DateTime(2024, 1, 21, 13, 7, 22, 432, DateTimeKind.Local).AddTicks(3387),
+                            CreatedAt = new DateTime(2024, 1, 20, 16, 50, 6, 968, DateTimeKind.Local).AddTicks(4334),
                             Name = "Product 2",
                             Price = 19.99m,
                             StockQuantity = 50
