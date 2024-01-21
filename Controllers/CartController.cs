@@ -1,10 +1,15 @@
-﻿using AquaFlow.Areas.Identity.Data;
+﻿using Amazon.ApiGatewayManagementApi.Model;
+using Amazon.ApiGatewayManagementApi;
+using Amazon.Runtime;
+using AquaFlow.Areas.Identity.Data;
 using AquaFlow.Data;
 using AquaFlow.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace AquaFlow.Controllers
 {
@@ -13,11 +18,14 @@ namespace AquaFlow.Controllers
 
         private readonly AquaFlowContext _context;
         private readonly UserManager<AquaFlowUser> _userManager;
+        private readonly string _apiGatewayEndpoint; //
 
-        public CartController(AquaFlowContext context, UserManager<AquaFlowUser> userManager)
+
+        public CartController(AquaFlowContext context, UserManager<AquaFlowUser> userManager, string apiGatewayEndpoint)
         {
             _context = context;
             _userManager = userManager;
+            _apiGatewayEndpoint = apiGatewayEndpoint;
         }
 
         [Authorize(Roles = "User")]
@@ -42,6 +50,13 @@ namespace AquaFlow.Controllers
             }
 
             return cart;
+        }
+
+        private async Task<int> GetConnectionIdAsync(AquaFlowUser user)
+        {
+        //
+            var cart = await GetOrCreateCartForUserAsync(user);
+            return cart.CartItems?.Sum(ci => ci.Quantity) ?? 0;
         }
 
         public async Task<int> GetCartItemCountAsync(AquaFlowUser user)
@@ -75,6 +90,53 @@ namespace AquaFlow.Controllers
             }
 
             await _context.SaveChangesAsync();
+
+            // After saving to the local database, notify the AWS Lambda function through API Gateway
+            await NotifyLambdaFunctionAsync(user, productId, quantity);
+        }
+
+        private Task NotifyLambdaFunctionAsync(AquaFlowUser user, int productId, int quantity)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task NotifyLambdaFunctionAsync(int userId, int productId, int quantity)
+        {
+            var apiGatewayClient = new AmazonApiGatewayManagementApiClient(new AnonymousAWSCredentials(), new AmazonApiGatewayManagementApiConfig
+            {
+                ServiceURL = _apiGatewayEndpoint
+            });
+
+            var connectionId = await GetConnectionIdAsync(userId);
+
+            if (connectionId != null)
+            {
+                var message = new
+                {
+                    ProductId = productId,
+                    Quantity = quantity
+                };
+
+                // Convert the message to a byte array
+                var messageBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+
+                // Create a MemoryStream from the byte array
+                using (var memoryStream = new System.IO.MemoryStream(messageBytes))
+                {
+                    var postToConnectionRequest = new PostToConnectionRequest
+                    {
+                        ConnectionId = connectionId,
+                        Data = memoryStream
+                    };
+
+                    await apiGatewayClient.PostToConnectionAsync(postToConnectionRequest);
+                }
+            }
+        }
+
+        private Task<string> GetConnectionIdAsync(object user)
+        {
+            throw new NotImplementedException();
         }
 
         public decimal CalculateTotalWithTaxAndShipping(Cart cart)
