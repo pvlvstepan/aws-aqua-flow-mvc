@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<AquaFlow.Models.Product>
+@using Microsoft.AspNetCore.Identity
+@using AquaFlow.Areas.Identity.Data
 
+@inject SignInManager<AquaFlowUser> SignInManager
 @{
     ViewData["Title"] = "Products";
 }
@@ -7,46 +10,34 @@
 <div class="p-5 text-center bg-primary">
     <h1 class="text-white">Products</h1>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StockQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StockQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="container py-5">
+    <div class="row justify-content-start">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-img-top mb-3 bg-info" style="height: 200px;">
+                            <img src=@item.ImagePath alt=@item.Name class="h-100 w-100" />
+                        </div>
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-subtitle">RM @item.Price.ToString("0.00")</p>
+                        <p class="card-text">@item.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <form asp-action="AddToCart" asp-controller="Home" method="post">
+                                    <input type="hidden" name="productId" value="@item.ProductId" />
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
+                            }
+                            <p class="card-subtitle">@item.StockQuantity Left</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>

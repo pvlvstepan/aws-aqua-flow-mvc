@@ -1,0 +1,20 @@
+
+{
+    "region" : "us-east-1",
+    "configuration" : "Debug",
+    "framework"     : "net7.0",
+    "self-contained" : true,
+    "application"    : "AquaFlow",
+    "environment"    : "AquaFlow-dev",
+    "enable-xray"    : true,
+    "enhanced-health-type" : "enhanced",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-0b0b91ef3a06a65a3,sg-010702548547768d0\";\"aws:ec2:vpc,Subnets\"=\"subnet-02bd3fc8b601a53b7\"",
+    "solution-stack"       : "64bit Amazon Linux 2 v2.6.3 running .NET Core",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "aquaflow-dev",
+    "instance-type"        : "t2.micro",
+    "key-pair"             : "",
+    "instance-profile"     : "LabInstanceProfile",
+    "service-role"         : "LabRole",
+    "proxy-server"         : "nginx"
+}

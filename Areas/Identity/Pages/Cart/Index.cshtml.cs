@@ -40,29 +40,34 @@ namespace AquaFlow.Areas.Identity.Pages.Cart
             // Ensure the cart is loaded for the user
             Cart = await _cartController.GetOrCreateCartForUserAsync(user);
 
-            // Create a new order
-            var order = new Order
+            // Check if there are items in the cart
+            if (Cart.CartItems.Any())
             {
-                User = user,
-                Address = $"{user.Street}, {user.City}, {user.State} {user.ZipCode}", // Replace with the actual user's address
-                OrderDate = DateTime.Now,
-                TotalAmount = _cartController.CalculateTotalWithTaxAndShipping(Cart), // Assuming you have a method to calculate the total amount in your Cart class
-                Status = "Pending", // Set the initial status as per your requirements
-                OrderItems = Cart.CartItems.Select(item => new OrderItem
+                // Create a new order
+                var order = new Order
                 {
-                    Quantity = item.Quantity,
-                    Product = item.Product // Assuming you have a Product property in your CartItem class
-                }).ToList()
-            };
+                    User = user,
+                    Address = $"{user.Street}, {user.City}, {user.State} {user.ZipCode}", // Replace with the actual user's address
+                    OrderDate = DateTime.Now,
+                    TotalAmount = _cartController.CalculateTotalWithTaxAndShipping(Cart), // Assuming you have a method to calculate the total amount in your Cart class
+                    Status = "Pending", // Set the initial status as per your requirements
+                    OrderItems = Cart.CartItems.Select(item => new OrderItem
+                    {
+                        Quantity = item.Quantity,
+                        Product = item.Product // Assuming you have a Product property in your CartItem class
+                    }).ToList()
+                };
 
-            // Save the order to the database
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+                // Save the order to the database
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
 
-            // Clear the user's cart after placing the order
-            await _cartController.ClearCartAsync(user);
+                // Clear the user's cart after placing the order
+                await _cartController.ClearCartAsync(user);
 
-            SuccessMessage = "Order placed successfully!";
+                SuccessMessage = "Order placed successfully!";
+            }
         }
+
     }
 }

@@ -1,11 +1,15 @@
 ﻿@model List<Product>
+@using Microsoft.AspNetCore.Identity
+@using AquaFlow.Areas.Identity.Data
+
+@inject SignInManager<AquaFlowUser> SignInManager
 @{
     ViewData["Title"] = "Home";
 }
 
 <section class="p-5 text-center bg-body-tertiary"
-         style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://s3.amazonaws.com/aquaflow.assets/home-banner.jpg');background-size:cover">
-    <img class="mt-4 mb-3" width="100" height="100" src="https://s3.amazonaws.com/aquaflow.assets/logo.png" />
+         style="background-image:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ),url('https://d2sovjsbrmfxkx.cloudfront.net/static/header.png');background-size:cover">
+    <img class="mt-4 mb-3" width="100" height="100" src="https://d2sovjsbrmfxkx.cloudfront.net/static/logo.png" />
     <h1 class="text-white">AquaFlow: Your Source for Refreshing Water</h1>
     <p class="col-lg-6 mx-auto fs-5 text-white">
         Experience Purity, Reliability, and Refreshment with AquaFlow - Your Trusted Partner in Hassle-Free Water Delivery!
@@ -29,10 +33,13 @@
                         <p class="card-subtitle">RM @product.Price.ToString("0.00")</p>
                         <p class="card-text">@product.Description</p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <form asp-action="AddToCart" asp-controller="Home" method="post">
-                                <input type="hidden" name="productId" value="@product.ProductId" />
-                                <button type="submit" class="btn btn-primary">Add to Cart</button>
-                            </form>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <form asp-action="AddToCart" asp-controller="Home" method="post">
+                                    <input type="hidden" name="productId" value="@product.ProductId" />
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
+                            }
                             <p class="card-subtitle">@product.StockQuantity Left</p>
                         </div>
                     </div>

@@ -18,5 +18,7 @@ namespace AquaFlow.Models
         public required int StockQuantity { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public string? ImagePath { get; set; }
     }
 }
